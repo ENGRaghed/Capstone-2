@@ -3,25 +3,27 @@ package com.bignerdranch.android.capstone2
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.service.controls.actions.FloatAction
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.capstone2.model.Photo
 import com.bignerdranch.android.capstone2.viewmodel.PhotoViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_photo_gallery.*
 
 
 class PhotoGalleryFragment : Fragment() {
@@ -62,11 +64,22 @@ class PhotoGalleryFragment : Fragment() {
                     Log.i("clocation","lat : ${clocation.latitude}, lon: ${clocation.longitude}")
                     photoViewModel.fetchPhoto(clocation.latitude.toString(),clocation.longitude.toString()).observe(viewLifecycleOwner, Observer {
                         adapter.setData(it)
+                        photo = it
                     })
                 }
             }
         }
+        val button = view.findViewById<FloatingActionButton>(R.id.go_to_map)
 
+        button.setOnClickListener {
+            /*
+             val action = TaskListFragmentDirections.actionTaskListFragmentToTaskDetailsFragment(taskList[position])
+                holder.itemView.findNavController().navigate(action)
+             */
+            val action = PhotoGalleryFragmentDirections.actionPhotoGalleryFragmentToPhotoMapsFragment(
+                photos = photo.toTypedArray())
+            findNavController().navigate(action)
+        }
 
         recyclerView.adapter = adapter
 

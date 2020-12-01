@@ -9,5 +9,21 @@
         android:id="@+id/photoGalleryFragment"
         android:name="com.bignerdranch.android.capstone2.PhotoGalleryFragment"
         android:label="fragment_photo_gallery"
-        tools:layout="@layout/fragment_photo_gallery" />
+        tools:layout="@layout/fragment_photo_gallery" >
+        <action
+            android:id="@+id/action_photoGalleryFragment_to_photoMapsFragment"
+            app:destination="@id/photoMapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoMapsFragment"
+        android:name="com.bignerdranch.android.capstone2.PhotoMapsFragment"
+        android:label="fragment_photo_maps"
+        tools:layout="@layout/fragment_photo_maps" >
+        <action
+            android:id="@+id/action_photoMapsFragment_to_photoGalleryFragment"
+            app:destination="@id/photoGalleryFragment" />
+        <argument
+            android:name="photos"
+            app:argType="com.bignerdranch.android.capstone2.model.Photo[]" />
+    </fragment>
 </navigation>

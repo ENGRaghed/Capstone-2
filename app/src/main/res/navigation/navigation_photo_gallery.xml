@@ -25,5 +25,19 @@
         <argument
             android:name="photos"
             app:argType="com.bignerdranch.android.capstone2.model.Photo[]" />
+        <action
+            android:id="@+id/action_photoMapsFragment_to_photoDialogFragment"
+            app:destination="@id/photoDialogFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/photoDialogFragment"
+        android:name="com.bignerdranch.android.capstone2.PhotoDialogFragment"
+        android:label="PhotoDialogFragment" >
+        <action
+            android:id="@+id/action_photoDialogFragment_to_photoMapsFragment"
+            app:destination="@id/photoMapsFragment" />
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </dialog>
 </navigation>

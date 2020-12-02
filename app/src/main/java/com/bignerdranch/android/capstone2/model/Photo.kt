@@ -13,8 +13,3 @@ data class Photo(
     @SerializedName("longitude") var longitude : String = "",
     @SerializedName("latitude")  var latitude : String = ""
 ) : Parcelable
-//
-//@Parcelize
-//data class geo( @SerializedName("longitude") var longitude : String = "",
-//                @SerializedName("latitude")  var latitude : String = ""
-//) : Parcelable

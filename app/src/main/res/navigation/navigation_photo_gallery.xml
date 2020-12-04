@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_photoGalleryFragment_to_photoMapsFragment"
             app:destination="@id/photoMapsFragment" />
+        <action
+            android:id="@+id/action_photoGalleryFragment_to_searchMapFragment"
+            app:destination="@id/searchMapFragment" />
     </fragment>
     <fragment
         android:id="@+id/photoMapsFragment"
@@ -40,4 +43,33 @@
             android:name="url"
             app:argType="string" />
     </dialog>
+    <fragment
+        android:id="@+id/searchMapFragment"
+        android:name="com.bignerdranch.android.capstone2.SearchMapFragment"
+        android:label="fragment_search_map"
+        tools:layout="@layout/fragment_search_map" >
+        <action
+            android:id="@+id/action_searchMapFragment_to_searchPhotoGalleryFragment"
+            app:destination="@id/searchPhotoGalleryFragment" />
+        <action
+            android:id="@+id/action_searchMapFragment_to_photoGalleryFragment"
+            app:destination="@id/photoGalleryFragment" />
+        <action
+            android:id="@+id/action_searchMapFragment_to_photoDialogFragment"
+            app:destination="@id/photoDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchPhotoGalleryFragment"
+        android:name="com.bignerdranch.android.capstone2.SearchPhotoGalleryFragment"
+        android:label="fragment_search_photo_gallery"
+        tools:layout="@layout/fragment_search_photo_gallery" >
+        <action
+            android:id="@+id/action_searchPhotoGalleryFragment_to_searchMapFragment"
+            app:destination="@id/searchMapFragment" />
+        <argument
+            android:name="lat"
+            app:argType="string" />
+        <argument android:name="lon"
+            app:argType="string" />
+    </fragment>
 </navigation>

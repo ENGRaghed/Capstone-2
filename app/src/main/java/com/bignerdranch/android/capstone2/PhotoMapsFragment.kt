@@ -40,29 +40,10 @@ class PhotoMapsFragment : Fragment() {
         for (cphoto in args.photos){
             val latLng = LatLng(cphoto.latitude.toDouble(), cphoto.longitude.toDouble())
             boundsBuilder.include(latLng)
-//            googleMap.addMarker(MarkerOptions().position(latLng).title(photo.title))
             googleMap.addMarker(MarkerOptions().position(latLng).title(cphoto.title).snippet(cphoto.url))
             googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),1000,1000,0))
             Log.i("photo_title",cphoto.title)
-//            googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
-//                override fun onMarkerClick(p0: Marker?): Boolean {
-////                    var zoomDialog= PhotoDialogFragment.newInstance(photo.url)
-////
-////                    zoomDialog.show(fragmentManager!!,null)
-//
-////                    val action = PhotoMapsFragmentDirections.actionPhotoMapsFragmentToPhotoDialogFragment(photo.url)
-////                    findNavController().navigate(action)
-//
-////                    zoomDialog.show()
-//                    val builder = AlertDialog.Builder(requireContext())
-//                    builder.setTitle(cphoto.owner)
-//                    builder.setMessage(cphoto.title)
-//                    builder.create()
-//                    builder.show()
-//                return false
-//                }
-//
-//            })
+
 
 
 

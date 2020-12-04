@@ -23,6 +23,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.PicassoProvider
 import kotlinx.android.synthetic.main.fragment_photo_gallery.*
 
 
@@ -62,7 +63,7 @@ class PhotoGalleryFragment : Fragment() {
                     clocation = location
                     Toast.makeText(context,"lat : ${clocation.latitude}, lon: ${clocation.longitude}",Toast.LENGTH_LONG).show()
                     Log.i("clocation","lat : ${clocation.latitude}, lon: ${clocation.longitude}")
-                    photoViewModel.fetchPhoto(clocation.latitude.toString(),clocation.longitude.toString()).observe(viewLifecycleOwner, Observer {
+                    photoViewModel.fetchPhoto(clocation.latitude.toString(),clocation.longitude.toString())!!.observe(viewLifecycleOwner, Observer {
                         adapter.setData(it)
                         photo = it
                     })
@@ -79,6 +80,13 @@ class PhotoGalleryFragment : Fragment() {
             val action = PhotoGalleryFragmentDirections.actionPhotoGalleryFragmentToPhotoMapsFragment(
                 photos = photo.toTypedArray())
             findNavController().navigate(action)
+        }
+
+
+        val searchButton = view.findViewById<FloatingActionButton>(R.id.search_floating_action)
+        searchButton.setOnClickListener {
+            val searchAction = PhotoGalleryFragmentDirections.actionPhotoGalleryFragmentToSearchMapFragment()
+            findNavController().navigate(searchAction)
         }
 
         recyclerView.adapter = adapter

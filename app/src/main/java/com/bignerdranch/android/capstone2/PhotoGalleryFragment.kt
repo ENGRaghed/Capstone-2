@@ -63,7 +63,8 @@ class PhotoGalleryFragment : Fragment() {
                     clocation = location
                     Toast.makeText(context,"lat : ${clocation.latitude}, lon: ${clocation.longitude}",Toast.LENGTH_LONG).show()
                     Log.i("clocation","lat : ${clocation.latitude}, lon: ${clocation.longitude}")
-                    photoViewModel.fetchPhoto(clocation.latitude.toString(),clocation.longitude.toString())!!.observe(viewLifecycleOwner, Observer {
+//                    photoViewModel.fetchPhoto(clocation.latitude.toString(),clocation.longitude.toString())
+                    photoViewModel.fetchPhoto(clocation.latitude.toString(),clocation.longitude.toString()).observe(viewLifecycleOwner, Observer {
                         adapter.setData(it)
                         photo = it
                     })

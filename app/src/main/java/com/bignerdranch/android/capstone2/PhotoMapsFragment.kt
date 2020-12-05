@@ -52,19 +52,8 @@ class PhotoMapsFragment : Fragment() {
             override fun onMarkerClick(marker: Marker?): Boolean {
 
                 val title = marker?.snippet
-
-//                    var zoomDialog= PhotoDialogFragment.newInstance(photo.url)
-//
-//                    zoomDialog.show(fragmentManager!!,null)
-
                     val action = PhotoMapsFragmentDirections.actionPhotoMapsFragmentToPhotoDialogFragment(title!!)
                     findNavController().navigate(action)
-
-//                    zoomDialog.show()
-//                val builder = AlertDialog.Builder(requireContext())
-//                builder.setTitle(title)
-//                builder.create()
-//                builder.show()
                 return false
             }
 

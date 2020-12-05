@@ -9,11 +9,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.bignerdranch.android.capstone2.model.Photo
 import com.bignerdranch.android.capstone2.viewmodel.PhotoViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -74,31 +81,104 @@ class SearchMapFragment : Fragment() {
          */
         val sydney = LatLng(clocation.latitude, clocation.longitude)
 //        googleMap.addMarker(MarkerOptions().position(sydney).title("my location"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,10f))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,15f))
 
         googleMap.setOnMapLongClickListener {LatLng ->
-//            val action = SearchMapFragmentDirections
-//                .actionSearchMapFragmentToSearchPhotoGalleryFragment(LatLng.latitude.toString(),LatLng.longitude.toString())
-//            findNavController().navigate(action)
             googleMap.clear()
-            photoViewModel.fetchPhoto(LatLng.latitude.toString(),LatLng.longitude.toString()).observe(viewLifecycleOwner, Observer {photos ->
-                val boundsBuilder = LatLngBounds.Builder()
-                for (photo in photos){
-                    val latLng = LatLng(photo.latitude.toDouble(), photo.longitude.toDouble())
-                    boundsBuilder.include(latLng)
+
+            val dialog = MaterialDialog(requireContext())
+                    .noAutoDismiss()
+                    .customView(R.layout.radius_layout)
+
+            dialog.findViewById<TextView>(R.id.positive_button).setOnClickListener {
+                val radius = dialog.findViewById<EditText>(R.id.radius_et)
+//                if (radius != null){
+                if(radius.text.toString() == ""){
+                    Log.i("Dialog","enter if(radius == null)")
+
+                    dialog.dismiss()
+                }else{
+
+                    val r = ((radius.text.toString()).toDouble())/1000
+                    Log.i("Dialog","enter else{")
+                    photoViewModel.fetchPhotoWithRadius(LatLng.latitude.toString(),LatLng.longitude.toString(),radius.text.toString())!!.observe(viewLifecycleOwner, Observer { photos ->
+                        val boundsBuilder = LatLngBounds.Builder()
+                        for (photo in photos) {
+                            var result = FloatArray(3)
+                            val x = Location.distanceBetween(LatLng.latitude,LatLng.longitude,photo.longitude.toDouble(),photo.longitude.toDouble(),result)
+                            val latLng = LatLng(photo.latitude.toDouble(), photo.longitude.toDouble())
+                            boundsBuilder.include(latLng)
 //            googleMap.addMarker(MarkerOptions().position(latLng).title(photo.title))
-                    googleMap.addMarker(MarkerOptions().position(latLng).title(photo.title).snippet(photo.url))
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),1000,1000,0))
+                            googleMap.addMarker(MarkerOptions().position(latLng).title("distance ${result[0]/100000} km").snippet(photo.url))
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 1000, 1000, 0))
 
-                    floatingButton.visibility = View.VISIBLE
-                    floatingButton.setOnClickListener {
-                        val action = SearchMapFragmentDirections
-                            .actionSearchMapFragmentToSearchPhotoGalleryFragment(LatLng.latitude.toString(),LatLng.longitude.toString())
-                        findNavController().navigate(action)
-                    }
+                            floatingButton.visibility = View.VISIBLE
+                            floatingButton.setOnClickListener {
+                                val action = SearchMapFragmentDirections
+                                        .actionSearchMapFragmentToSearchPhotoGalleryFragment(LatLng.latitude.toString(), LatLng.longitude.toString(), radius.text.toString())
+                                findNavController().navigate(action)
+                            }
 
+                        }
+                    })
+                    dialog.dismiss()
+                    ////////////////////////////
                 }
-            })
+
+            }
+
+            dialog.findViewById<TextView>(R.id.negative_button).setOnClickListener {
+                Log.i("Dialog","enter on negative_button")
+
+//                photoViewModel.fetchPhoto(LatLng.latitude.toString(),LatLng.longitude.toString())
+//                photoViewModel.photos.observe(viewLifecycleOwner, Observer {photos ->
+                photoViewModel.fetchPhoto(LatLng.latitude.toString(),LatLng.longitude.toString())!!.observe(viewLifecycleOwner, Observer {photos ->
+                    val boundsBuilder = LatLngBounds.Builder()
+                    for (photo in photos){
+                        val latLng = LatLng(photo.latitude.toDouble(), photo.longitude.toDouble())
+                        boundsBuilder.include(latLng)
+//            googleMap.addMarker(MarkerOptions().position(latLng).title(photo.title))
+                        googleMap.addMarker(MarkerOptions().position(latLng).title(photo.title).snippet(photo.url))
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),1000,1000,0))
+
+                        floatingButton.visibility = View.VISIBLE
+                        floatingButton.setOnClickListener {
+                            val action = SearchMapFragmentDirections
+                                .actionSearchMapFragmentToSearchPhotoGalleryFragment(LatLng.latitude.toString(),LatLng.longitude.toString(),"5")
+                            findNavController().navigate(action)
+                        }
+
+                    }
+                })
+                dialog.dismiss()
+            }
+            Log.i("Dialog","end")
+
+
+            dialog.show()
+
+
+
+
+//            googleMap.clear()
+//            photoViewModel.fetchPhotoWithRadius(LatLng.latitude.toString(),LatLng.longitude.toString(),"1").observe(viewLifecycleOwner, Observer {photos ->
+//                val boundsBuilder = LatLngBounds.Builder()
+//                for (photo in photos){
+//                    val latLng = LatLng(photo.latitude.toDouble(), photo.longitude.toDouble())
+//                    boundsBuilder.include(latLng)
+////            googleMap.addMarker(MarkerOptions().position(latLng).title(photo.title))
+//                    googleMap.addMarker(MarkerOptions().position(latLng).title(photo.title).snippet(photo.url))
+//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),1000,1000,0))
+//
+//                    floatingButton.visibility = View.VISIBLE
+//                    floatingButton.setOnClickListener {
+//                        val action = SearchMapFragmentDirections
+//                            .actionSearchMapFragmentToSearchPhotoGalleryFragment(LatLng.latitude.toString(),LatLng.longitude.toString())
+//                        findNavController().navigate(action)
+//                    }
+//
+//                }
+//            })
         }
 
 
@@ -107,6 +187,8 @@ class SearchMapFragment : Fragment() {
             override fun onMarkerClick(marker: Marker?): Boolean {
 
                 val url = marker?.snippet
+//                val url = marker?.tag
+
                 val action = SearchMapFragmentDirections.actionSearchMapFragmentToPhotoDialogFragment(url!!)
                 findNavController().navigate(action)
 
@@ -127,4 +209,33 @@ class SearchMapFragment : Fragment() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
     }
+
+//    private fun fatechPhoto(lat : String,lon : String , radius : String = "5") : List<Photo>{
+//        var photos : List<Photo> = emptyList()
+//        photoViewModel.fetchPhotoWithRadius(lat,lon,radius).observe(viewLifecycleOwner, Observer {
+//            photos = it
+//                val boundsBuilder = LatLngBounds.Builder()
+//            })
+//        return photos
+//    }
+
+//    private fun addMarker(photos : List<Photo>, googleMap :GoogleMap,lat: String,lon: String,radius: String){
+//        val boundsBuilder = LatLngBounds.Builder()
+//        for (photo in photos){
+//            val latLng = LatLng(photo.latitude.toDouble(), photo.longitude.toDouble())
+//            boundsBuilder.include(latLng)
+////            googleMap.addMarker(MarkerOptions().position(latLng).title(photo.title))
+//            googleMap.addMarker(MarkerOptions().position(latLng).title(photo.title).snippet(photo.url))
+//            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),1000,1000,0))
+//
+//            floatingButton.visibility = View.VISIBLE
+//            floatingButton.setOnClickListener {
+//                val action = SearchMapFragmentDirections
+//                        .actionSearchMapFragmentToSearchPhotoGalleryFragment(lat,lon,radius)
+//                findNavController().navigate(action)
+//            }
+//
+//        }
+//
+//    }
 }

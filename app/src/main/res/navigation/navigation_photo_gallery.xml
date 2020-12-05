@@ -71,5 +71,8 @@
             app:argType="string" />
         <argument android:name="lon"
             app:argType="string" />
+        <argument
+            android:name="radius"
+            app:argType="string" />
     </fragment>
 </navigation>

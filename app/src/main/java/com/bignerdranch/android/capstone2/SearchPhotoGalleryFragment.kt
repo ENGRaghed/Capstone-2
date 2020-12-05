@@ -38,7 +38,7 @@ class SearchPhotoGalleryFragment : Fragment() {
         photoViewModel= ViewModelProvider(this).get(PhotoViewModel::class.java)
         recyclerView = view.findViewById(R.id.rvSearchPhoto)
         recyclerView.layoutManager = GridLayoutManager(context,3)
-        photoViewModel.fetchPhoto(args.lat, args.lon).observe(viewLifecycleOwner, Observer {
+        photoViewModel.fetchPhotoWithRadius(args.lat, args.lon,args.radius).observe(viewLifecycleOwner, Observer {
             adapter.setData(it)
         })
 

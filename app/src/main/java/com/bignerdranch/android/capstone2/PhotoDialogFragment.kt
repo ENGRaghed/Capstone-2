@@ -1,6 +1,5 @@
 package com.bignerdranch.android.capstone2
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,7 +18,6 @@ class PhotoDialogFragment : DialogFragment() {
         val view = inflater.inflate(R.layout.zoom_in_photo, container, false)
         val photoZoom : ImageView = view.findViewById(R.id.zoom_photo)
 
-//        val fileName = arguments?.getSerializable("PHOTO_URI") as String
         val fileName = args.url
 
 
@@ -28,12 +26,6 @@ class PhotoDialogFragment : DialogFragment() {
                 .into(photoZoom)
 
         Log.i("Url : ",fileName)
-
-//        Picasso.get().load(photoItem.url)
-//                .placeholder(R.drawable.bill_up_close)
-//                .error(R.drawable.ic_launcher_foreground)
-//                .into(holder.itemView.image)
-//        photoZoom.setImageBitmap(BitmapFactory.decodeFile(requireContext().filesDir.path + "/" + fileName))
 
         return view
     }

@@ -25,9 +25,6 @@
         <action
             android:id="@+id/action_photoMapsFragment_to_photoGalleryFragment"
             app:destination="@id/photoGalleryFragment" />
-        <argument
-            android:name="photos"
-            app:argType="com.bignerdranch.android.capstone2.model.Photo[]" />
         <action
             android:id="@+id/action_photoMapsFragment_to_photoDialogFragment"
             app:destination="@id/photoDialogFragment" />

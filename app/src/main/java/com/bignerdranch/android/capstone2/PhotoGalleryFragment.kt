@@ -71,24 +71,24 @@ class PhotoGalleryFragment : Fragment() {
                 }
             }
         }
-        val button = view.findViewById<FloatingActionButton>(R.id.go_to_map)
-
-        button.setOnClickListener {
-            /*
-             val action = TaskListFragmentDirections.actionTaskListFragmentToTaskDetailsFragment(taskList[position])
-                holder.itemView.findNavController().navigate(action)
-             */
-            val action = PhotoGalleryFragmentDirections.actionPhotoGalleryFragmentToPhotoMapsFragment(
-                photos = photo.toTypedArray())
-            findNavController().navigate(action)
-        }
-
-
-        val searchButton = view.findViewById<FloatingActionButton>(R.id.search_floating_action)
-        searchButton.setOnClickListener {
-            val searchAction = PhotoGalleryFragmentDirections.actionPhotoGalleryFragmentToSearchMapFragment()
-            findNavController().navigate(searchAction)
-        }
+//        val button = view.findViewById<FloatingActionButton>(R.id.go_to_map)
+//
+//        button.setOnClickListener {
+//            /*
+//             val action = TaskListFragmentDirections.actionTaskListFragmentToTaskDetailsFragment(taskList[position])
+//                holder.itemView.findNavController().navigate(action)
+//             */
+//            val action = PhotoGalleryFragmentDirections.actionPhotoGalleryFragmentToPhotoMapsFragment()
+////                photos = photo.toTypedArray())
+//            findNavController().navigate(action)
+//        }
+//
+//
+//        val searchButton = view.findViewById<FloatingActionButton>(R.id.search_floating_action)
+//        searchButton.setOnClickListener {
+//            val searchAction = PhotoGalleryFragmentDirections.actionPhotoGalleryFragmentToSearchMapFragment()
+//            findNavController().navigate(searchAction)
+//        }
 
         recyclerView.adapter = adapter
 

@@ -12,14 +12,14 @@ object ServiceLocator {
 
     private lateinit var app: App
     lateinit var retrofit: Retrofit
-    private lateinit var flickrApi: FlickrApi
+    lateinit var flickrApi: FlickrApi
 
     fun init(app: App) {
         this.app = app
         initializeNetwork(app)
     }
 
-    private fun getOkhttpClient(): OkHttpClient {
+    fun getOkhttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(PhotoInterceptor())
             .build()

@@ -1,33 +1,25 @@
 package com.bignerdranch.android.capstone2
 
-import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.service.controls.actions.FloatAction
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.capstone2.model.Photo
 import com.bignerdranch.android.capstone2.viewmodel.PhotoViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.PicassoProvider
-import kotlinx.android.synthetic.main.fragment_photo_gallery.*
 
 
-class PhotoGalleryFragment : Fragment() {
+class SearchPhotoGalleryFragment : Fragment() {
 
     private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
     private val requestNum = 1
@@ -36,7 +28,7 @@ class PhotoGalleryFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
     private var photo = emptyList<Photo>()
     private var adapter = PhotoAdapter(photo)
-
+    private val args by navArgs<SearchPhotoGalleryFragmentArgs>()
 
 
     override fun onCreateView(
@@ -44,40 +36,21 @@ class PhotoGalleryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_search_photo_gallery, container, false)
 
 
-        val view = inflater.inflate(R.layout.fragment_photo_gallery, container, false)
         photoViewModel= ViewModelProvider(this).get(PhotoViewModel::class.java)
-        recyclerView = view.findViewById(R.id.rvPhotos)
+        recyclerView = view.findViewById(R.id.rvSearchPhoto)
         recyclerView.layoutManager = GridLayoutManager(context,3)
-
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        if (ActivityCompat.checkSelfPermission(requireActivity(),android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED&&
-                ActivityCompat.checkSelfPermission(requireContext(),android.Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),requestNum)
-        }else{
-            //main logic
-            val task = fusedLocationProviderClient.lastLocation
-            task.addOnSuccessListener { location ->
-                if (location != null){
-                    clocation = location
-                    Toast.makeText(context,"lat : ${clocation.latitude}, lon: ${clocation.longitude}",Toast.LENGTH_LONG).show()
-                    Log.i("clocation","lat : ${clocation.latitude}, lon: ${clocation.longitude}")
-                    photoViewModel.fetchPhoto(clocation.latitude.toString(),clocation.longitude.toString()).observe(viewLifecycleOwner, Observer {
-                        adapter.setData(it)
-                        photo = it
-                    })
-                }
-            }
-        }
-
+        photoViewModel.fetchPhotoWithRadius(args.lat, args.lon,args.radius).observe(viewLifecycleOwner, Observer {
+            adapter.setData(it)
+        })
 
         recyclerView.adapter = adapter
 
 
         return view
     }
-
 
     private inner class PhotoAdapter( private var photos : List<Photo>) : RecyclerView.Adapter<PhotoAdapter.PhotoHolder>(){
         private inner class PhotoHolder(view: View): RecyclerView.ViewHolder(view){
@@ -103,11 +76,14 @@ class PhotoGalleryFragment : Fragment() {
         override fun onBindViewHolder(holder: PhotoHolder, position: Int) {
             var photo = this.photos[position]
             holder.bind(photo)
+            Log.i("GeoLatLon","#$position :${photo.title} = ${photo.latitude} , ${photo.longitude}")
+
         }
         fun setData(photos: List<Photo>){
             this.photos = photos
             notifyDataSetChanged()
         }
     }
+
 
 }

@@ -38,7 +38,6 @@ class PhotoMapsFragment : Fragment() {
     private lateinit var clocation : Location
     private lateinit var  photoViewModel: PhotoViewModel
     private var photos = emptyList<Photo>()
-//    private val args by navArgs<PhotoMapsFragmentArgs>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,10 +55,7 @@ class PhotoMapsFragment : Fragment() {
                     clocation = location
                     Toast.makeText(context,"lat : ${clocation.latitude}, lon: ${clocation.longitude}",
                             Toast.LENGTH_LONG).show()
-                    Log.i("clocation","lat : ${clocation.latitude}, lon: ${clocation.longitude}")
-//                    photoViewModel.fetchPhoto(clocation.latitude.toString(),clocation.longitude.toString()).observe(viewLifecycleOwner, Observer {
-//                        photos = it
-//                    })
+
                 }
             }
         }
@@ -79,13 +75,11 @@ class PhotoMapsFragment : Fragment() {
         val boundsBuilder = LatLngBounds.Builder()
 
         photoViewModel.fetchPhoto(clocation.latitude.toString(),clocation.longitude.toString()).observe(viewLifecycleOwner, Observer {photos ->
-//            photos = it
             for (cphoto in photos){
                 val latLng = LatLng(cphoto.latitude.toDouble(), cphoto.longitude.toDouble())
                 boundsBuilder.include(latLng)
                 googleMap.addMarker(MarkerOptions().position(latLng).title(cphoto.title).snippet(cphoto.url))
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),1000,1000,0))
-                Log.i("photo_title",cphoto.title)
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),1000,1000,0))
 
             }
         })
@@ -101,14 +95,6 @@ class PhotoMapsFragment : Fragment() {
             }
 
         })
-
-
-
-
-//        val sydney = LatLng(-34.0, 151.0)
-//        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),1000,1000,0))
-
     }
 
     override fun onCreateView(inflater: LayoutInflater,

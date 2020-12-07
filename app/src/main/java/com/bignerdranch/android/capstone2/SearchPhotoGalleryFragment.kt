@@ -28,7 +28,6 @@ class SearchPhotoGalleryFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
     private var photo = emptyList<Photo>()
     private var adapter = PhotoAdapter(photo)
-    //    private val args by navArgs<PhotoMapsFragmentArgs>()
     private val args by navArgs<SearchPhotoGalleryFragmentArgs>()
 
 

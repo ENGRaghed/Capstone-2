@@ -63,7 +63,6 @@ class PhotoGalleryFragment : Fragment() {
                     clocation = location
                     Toast.makeText(context,"lat : ${clocation.latitude}, lon: ${clocation.longitude}",Toast.LENGTH_LONG).show()
                     Log.i("clocation","lat : ${clocation.latitude}, lon: ${clocation.longitude}")
-//                    photoViewModel.fetchPhoto(clocation.latitude.toString(),clocation.longitude.toString())
                     photoViewModel.fetchPhoto(clocation.latitude.toString(),clocation.longitude.toString()).observe(viewLifecycleOwner, Observer {
                         adapter.setData(it)
                         photo = it
@@ -71,24 +70,7 @@ class PhotoGalleryFragment : Fragment() {
                 }
             }
         }
-//        val button = view.findViewById<FloatingActionButton>(R.id.go_to_map)
-//
-//        button.setOnClickListener {
-//            /*
-//             val action = TaskListFragmentDirections.actionTaskListFragmentToTaskDetailsFragment(taskList[position])
-//                holder.itemView.findNavController().navigate(action)
-//             */
-//            val action = PhotoGalleryFragmentDirections.actionPhotoGalleryFragmentToPhotoMapsFragment()
-////                photos = photo.toTypedArray())
-//            findNavController().navigate(action)
-//        }
-//
-//
-//        val searchButton = view.findViewById<FloatingActionButton>(R.id.search_floating_action)
-//        searchButton.setOnClickListener {
-//            val searchAction = PhotoGalleryFragmentDirections.actionPhotoGalleryFragmentToSearchMapFragment()
-//            findNavController().navigate(searchAction)
-//        }
+
 
         recyclerView.adapter = adapter
 
@@ -121,8 +103,6 @@ class PhotoGalleryFragment : Fragment() {
         override fun onBindViewHolder(holder: PhotoHolder, position: Int) {
             var photo = this.photos[position]
             holder.bind(photo)
-            Log.i("GeoLatLon","#$position :${photo.title} = ${photo.latitude} , ${photo.longitude}")
-
         }
         fun setData(photos: List<Photo>){
             this.photos = photos

@@ -29,29 +29,6 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setupWithNavController(navController)
 
-//        when(bottomNavigationView){
-//            R.id.photoGalleryFragment ->{}
-//            R.id.photoMapsFragment ->{}
-//            R.id.searchMapFragment ->{}
-//        }
-
-//        bottomNavigationView.setOnNavigationItemSelectedListener {
-//           when(it.itemId){
-//               R.id.actionPhotoGalleryFragment -> moveToFragment(PhotoGalleryFragment())
-//               R.id.actionSearchMapFragment -> {
-//
-//               }
-//                   //moveToFragment(SearchMapFragment())
-////               R.id.actionSearchMapFragment -
-//
-//           }
-//            true
-//        }
-
     }
-    fun moveToFragment(fragment: Fragment)=
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment,fragment)
-                        .commit()
-            }
+
 }

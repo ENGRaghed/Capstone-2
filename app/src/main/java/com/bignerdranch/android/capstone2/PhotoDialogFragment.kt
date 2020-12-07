@@ -25,18 +25,7 @@ class PhotoDialogFragment : DialogFragment() {
                 .error(R.drawable.ic_launcher_background)
                 .into(photoZoom)
 
-        Log.i("Url : ",fileName)
-
         return view
     }
 
-    companion object {
-        fun newInstance(photoFileName: String): PhotoDialogFragment {
-            val frag = PhotoDialogFragment()
-            val args = Bundle()
-            args.putSerializable("PHOTO_URI", photoFileName)
-            frag.arguments = args
-            return frag
-        }
-    }
 }

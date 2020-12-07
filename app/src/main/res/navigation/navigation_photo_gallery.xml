@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/photoGalleryFragment"
         android:name="com.bignerdranch.android.capstone2.PhotoGalleryFragment"
-        android:label="fragment_photo_gallery"
+        android:label="Photo Gallery"
         tools:layout="@layout/fragment_photo_gallery" >
         <action
             android:id="@+id/action_photoGalleryFragment_to_photoMapsFragment"
@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/photoMapsFragment"
         android:name="com.bignerdranch.android.capstone2.PhotoMapsFragment"
-        android:label="fragment_photo_maps"
+        android:label="Photo Map"
         tools:layout="@layout/fragment_photo_maps" >
         <action
             android:id="@+id/action_photoMapsFragment_to_photoGalleryFragment"
@@ -43,7 +43,7 @@
     <fragment
         android:id="@+id/searchMapFragment"
         android:name="com.bignerdranch.android.capstone2.SearchMapFragment"
-        android:label="fragment_search_map"
+        android:label="Search Map"
         tools:layout="@layout/fragment_search_map" >
         <action
             android:id="@+id/action_searchMapFragment_to_searchPhotoGalleryFragment"
@@ -58,7 +58,7 @@
     <fragment
         android:id="@+id/searchPhotoGalleryFragment"
         android:name="com.bignerdranch.android.capstone2.SearchPhotoGalleryFragment"
-        android:label="fragment_search_photo_gallery"
+        android:label="Search Photo Gallery"
         tools:layout="@layout/fragment_search_photo_gallery" >
         <action
             android:id="@+id/action_searchPhotoGalleryFragment_to_searchMapFragment"
